@@ -1,6 +1,6 @@
 # WiFi Drop
 
-Ứng dụng web để các thiết bị cùng Wi-Fi gửi file trực tiếp cho nhau. Mỗi thiết bị kết nối ngang hàng với các thiết bị còn lại; máy chủ chỉ phục vụ giao diện và chuyển tín hiệu WebRTC. Mỗi phòng hỗ trợ tối đa 8 thiết bị.
+Ứng dụng web để các thiết bị cùng Wi-Fi gửi file trực tiếp cho nhau. Mỗi thiết bị kết nối ngang hàng với các thiết bị còn lại; máy chủ chỉ phục vụ giao diện và chuyển tín hiệu WebRTC. Mỗi phòng hỗ trợ tối đa 8 thiết bị. Font DM Sans và Manrope được phục vụ từ các file local trong `public/fonts`, không cần gọi Google Fonts.
 
 ## Chạy bằng Docker Compose
 
@@ -52,6 +52,7 @@ Dùng địa chỉ LAN do server in ra trong terminal để mở app từ máy k
 - Mỗi phòng hỗ trợ tối đa 8 thiết bị; mọi thiết bị đều có thể gửi và nhận; dừng server hoặc đóng trang sẽ kết thúc phiên.
 - Dữ liệu truyền qua kết nối WebRTC mã hóa. Các thiết bị cần cùng mạng có thể giao tiếp với nhau; firewall hoặc tính năng cách ly thiết bị của Wi-Fi có thể chặn kết nối.
 - Không cần volume vì server không lưu file người dùng.
+
 
 
 
