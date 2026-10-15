@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f6fb"><title>WiFi Drop — Gửi file trong mạng nội bộ</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><a class="brand" href="/"><span class="brand-icon">↗</span><span>WiFi<span class="brand-light">Drop</span></span></a><div class="local"><i></i> Chỉ trong mạng nội bộ</div></header>
+    <section class="hero">
+      <div class="eyebrow"><span></span> CHIA SẺ RIÊNG TƯ · KHÔNG QUA CLOUD</div>
+      <h1>Gửi file.<br><span>Thật đơn giản.</span></h1>
+      <p class="intro">Truyền trực tiếp giữa hai thiết bị cùng Wi-Fi.<br>Không tải file lên máy chủ.</p>
+    </section>
+    <section class="connect card">
+      <div class="step-label"><span class="step-num">01</span><div><h2>Kết nối thiết bị</h2><p>Cả hai máy nhập cùng một mã phòng.</p></div></div>
+      <div class="room-row"><label class="sr-only" for="room">Mã phòng</label><input id="room" maxlength="24" autocomplete="off" placeholder="Nhập mã phòng, ví dụ: phong-khach"><button id="connectBtn" class="button primary">Kết nối <span>→</span></button></div>
+      <div class="room-tip"><span class="tip-icon">✦</span> Gợi ý: một máy tạo mã, máy kia nhập đúng mã đó.</div>
+      <div id="connection" class="connection"><span class="status-dot"></span><span id="connectionText">Chưa kết nối</span><span id="peerBadge" class="peer-badge">Chờ thiết bị</span></div>
+    </section>
+    <section class="transfer card" id="transferCard">
+      <div class="step-label"><span class="step-num">02</span><div><h2>Chọn file để gửi</h2><p>Kéo thả nhiều file hoặc chọn nhiều file cùng lúc.</p></div></div>
+      <label class="dropzone" id="dropzone" for="fileInput"><input id="fileInput" type="file" multiple disabled><span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></span><strong id="dropTitle">Đang chờ kết nối</strong><span id="dropCaption">Kết nối với thiết bị còn lại để bắt đầu gửi file</span><span class="browse">Duyệt file <span>→</span></span></label>
+      <div id="fileList" class="file-list"></div>
+      <div class="quick-share">
+        <div class="quick-heading"><div><h3>Gửi nhanh text hoặc ảnh</h3><p>Dán text vào ô bên dưới; ảnh đã copy có thể dán trực tiếp trên trang.</p></div></div>
+        <textarea id="textInput" rows="3" maxlength="1000000" placeholder="Nhập hoặc dán nội dung văn bản…" disabled></textarea>
+        <div class="quick-actions"><span id="textCount">0 ký tự</span><button id="sendTextBtn" class="button primary" disabled>Gửi text <span>→</span></button></div>
+      </div>
+      <div id="progressWrap" class="progress-wrap" hidden><div class="progress-heading"><span id="progressName">Đang gửi…</span><span id="progressPct">0%</span></div><div class="progress-track"><span id="progressBar"></span></div><div class="progress-meta"><span id="progressDetail">Đang chuẩn bị</span><button id="cancelBtn" class="text-button">Hủy</button></div></div>
+      <div class="privacy"><span class="lock">⌑</span><span>File truyền trực tiếp giữa hai trình duyệt qua kết nối mã hóa. Server chỉ hỗ trợ ghép nối.</span></div>
+    </section>
+    <footer><span>WiFi Drop <span class="dot-sep">·</span> Chia sẻ trong cùng mạng Wi-Fi</span><span>Không lưu trữ file</span></footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
+
+
+

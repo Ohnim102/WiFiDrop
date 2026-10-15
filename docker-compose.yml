@@ -1,0 +1,9 @@
+services:
+  wifi-drop:
+    build: .
+    container_name: wifi-drop
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000

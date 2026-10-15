@@ -1,0 +1,7 @@
+{
+  "name": "wifi-file-drop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Truyen file truc tiep giua cac may cung mang Wi-Fi",
+  "scripts": { "start": "node server.js" }
+}
