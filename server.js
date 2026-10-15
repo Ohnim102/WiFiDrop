@@ -55,15 +55,24 @@ function handleMessage(socket, raw) {
     const roomId = String(msg.room || '').replace(/[^a-zA-Z0-9-]/g, '').slice(0, 24);
     if (!roomId) return socket.sendText({ type: 'error', message: 'Mã phòng không hợp lệ.' });
     let peers = rooms.get(roomId); if (!peers) rooms.set(roomId, peers = new Set());
-    if (peers.size >= MAX_ROOM_SIZE) return socket.sendText({ type: 'error', message: `Phòng đã đủ ${MAX_ROOM_SIZE} thiết bị.` });
-    const existing = [...peers]; socket.roomId = roomId; socket.peerId = crypto.randomUUID(); peers.add(socket);
-    socket.sendText({ type: 'joined', count: peers.size, peers: existing.map(peer => peer.peerId), max: MAX_ROOM_SIZE });
+    if (peers.size >= MAX_ROOM_SIZE) return socket.sendText({ type: 'error', message: 'Phòng đã đủ ' + MAX_ROOM_SIZE + ' thiết bị.' });
+    const mode = msg.mode === 'relay' ? 'relay' : 'direct';
+    const existing = [...peers];
+    if (existing.length && existing[0].mode !== mode) return socket.sendText({ type: 'error', message: 'Phòng đang dùng chế độ ' + (existing[0].mode === 'relay' ? 'Relay qua server' : 'WebRTC trực tiếp') + '. Hãy chọn đúng chế độ.' });
+    socket.roomId = roomId; socket.mode = mode; socket.peerId = crypto.randomUUID(); peers.add(socket);
+    socket.sendText({ type: 'joined', count: peers.size, peers: existing.map(peer => peer.peerId), max: MAX_ROOM_SIZE, mode });
     for (const peer of existing) peer.sendText({ type: 'peer-joined', peerId: socket.peerId, count: peers.size });
     return;
   }
-  if (socket.roomId && ['offer', 'answer', 'candidate'].includes(msg.type)) {
+  if (socket.roomId && socket.mode === 'direct' && ['offer', 'answer', 'candidate'].includes(msg.type)) {
     const target = [...(rooms.get(socket.roomId) || [])].find(peer => peer.peerId === msg.to);
     if (target && target !== socket) target.sendText({ ...msg, from: socket.peerId });
+    return;
+  }
+  if (socket.roomId && socket.mode === 'relay' && msg.type === 'relay') {
+    if (!['relay-start', 'relay-chunk', 'relay-end', 'relay-cancel', 'relay-text'].includes(msg.kind)) return;
+    if (msg.kind === 'relay-chunk' && (typeof msg.data !== 'string' || msg.data.length > 50000)) return;
+    for (const peer of rooms.get(socket.roomId) || []) if (peer !== socket) peer.sendText({ type: 'relay', from: socket.peerId, kind: msg.kind, transferId: msg.transferId, name: msg.name, size: msg.size, mime: msg.mime, data: msg.data, text: msg.text });
   }
 }
 function removePeer(socket) {
